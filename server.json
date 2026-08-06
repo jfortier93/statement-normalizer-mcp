@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.jfortier93/statement-normalizer-mcp",
+  "title": "Statement Normalizer",
+  "description": "Deterministic bank-statement parsing for AI agents: messy CSV/OFX exports to clean, categorized ledger rows. In-memory only, no storage, no external calls, no LLM in the loop.",
+  "repository": {
+    "url": "https://github.com/jfortier93/statement-normalizer-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://statement-normalizer.mcpize.run"
+    }
+  ]
+}
+
