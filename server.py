@@ -9,6 +9,7 @@ import io
 import re
 
 from mcp.server.mcpserver import MCPServer
+from mcp.types import ToolAnnotations
 
 DISCLAIMER = ("Heuristic normalization and categorization for bookkeeping assistance. "
               "Verify before accounting, tax, or audit use. Data is processed in-memory "
@@ -309,9 +310,17 @@ def summarize_statement(statement_text: str, date_order: str = "mdy",
     })
 
 
-for fn in (normalize_statement, detect_format, to_quickbooks_csv, summarize_statement):
-    server.tool()(fn)
-
+# All tools are pure, in-memory transforms: read-only, no storage, no external calls.
+_TITLES = {
+    detect_format: "Detect statement format",
+    normalize_statement: "Normalize bank statement",
+    summarize_statement: "Summarize statement totals",
+    to_quickbooks_csv: "Convert to QuickBooks CSV",
+}
+_ANNOTATIONS = ToolAnnotations(read_only_hint=True, destructive_hint=False,
+                               idempotent_hint=True, open_world_hint=False)
+for fn, _title in _TITLES.items():
+    server.tool(title=_title, annotations=_ANNOTATIONS)(fn)
 
 if __name__ == "__main__":
     server.run()
